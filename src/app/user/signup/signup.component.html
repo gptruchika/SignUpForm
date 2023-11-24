@@ -1,0 +1,34 @@
+
+    <body>
+        <div class="login-page">
+            <div class="form">
+                <div class="login">
+                <div class="login-header">
+                    <h3>SignUp</h3>
+                    <p>Please enter your details.</p>
+                </div>
+                </div>
+                    <form class="login-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                        <input type="text" id="name" formControlName="name" placeholder="name">
+                        <div *ngIf="isFieldInvalid('name')">Name is required</div>
+
+                        <input type="email" id="email" formControlName="email" placeholder="email">
+                        <div *ngIf="isFieldInvalid('email')">Enter a valid email address</div>
+                      
+                        <input type="tel" id="phoneNumber" formControlName="phoneNumber" placeholder="phoneNumber">
+                        <div *ngIf="isFieldInvalid('phoneNumber')">Phone Number is required</div>
+                      
+                        <input type="password" id="password" formControlName="password" placeholder="password">
+                        <div *ngIf="isFieldInvalid('password')">Password is required and must be at least 6 characters</div>
+                      
+                        <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="confirmPassword">
+                        <div *ngIf="isFieldInvalid('confirmPassword')">Confirm Password is required</div>
+                              
+                        <button type="submit" [disabled]="signupForm.invalid" (click)="onSubmit()">Signup</button>
+                        <p class="message">Already have an account? <a routerLink="/login">Login</a></p>
+                    </form>
+            </div>
+        </div>
+    </body>
+
+
