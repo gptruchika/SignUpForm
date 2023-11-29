@@ -1,22 +1,31 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserdataService } from '../userdata.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CanComponentDeactivate } from 'src/app/auth/can-deactivate.interface';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements CanComponentDeactivate{
 
   loginForm: FormGroup;
+
   constructor (private fb : FormBuilder, private router: Router, private userdata : UserdataService) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
+  canDeactivate(): boolean {
+    if(this.loginForm.dirty)
+    return confirm('Do you really want to leave?');
+    else
+    return true;
+  }
+
 
   login() {
     if (this.loginForm.valid) {
@@ -41,4 +50,5 @@ export class LoginComponent {
     }
     
   }
+
 }

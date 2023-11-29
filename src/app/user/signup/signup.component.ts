@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserdataService } from '../userdata.service';
+import { CanComponentDeactivate } from 'src/app/auth/can-deactivate.interface';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent {
+export class SignupComponent implements CanComponentDeactivate {
   signupForm: FormGroup;
+
 
   constructor(private fb: FormBuilder ,private router: Router, private userdata : UserdataService) {
     this.signupForm = this.fb.group({
@@ -19,6 +21,13 @@ export class SignupComponent {
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
       confirmPassword: ['', Validators.required],
     });
+  }
+
+  canDeactivate(): boolean {
+    if(this.signupForm.dirty)
+    return confirm('Do you really want to leave?');
+    else
+    return true;
   }
 
   validatePhoneNumber(control: AbstractControl): { [key: string]: boolean } | null {
@@ -72,4 +81,5 @@ export class SignupComponent {
     const control = this.signupForm.get(field)!;
     return control.invalid && control.touched;
   }
+
 }
